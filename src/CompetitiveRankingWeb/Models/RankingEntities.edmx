@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RankingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="DeveloperID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="GameID" />
+          </Key>
+          <Property Name="GameID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Publisher_ID" Type="int" />
+          <Property Name="Developer_ID" Type="int" />
+          <Property Name="ReleaseDate" Type="date" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="CompetedIn" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Platform">
+          <Key>
+            <PropertyRef Name="PlatformID" />
+          </Key>
+          <Property Name="PlatformID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Playthrough">
+          <Key>
+            <PropertyRef Name="PlaythroughID" />
+          </Key>
+          <Property Name="PlaythroughID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Game_ID" Type="int" Nullable="false" />
+          <Property Name="Platform_ID" Type="int" Nullable="false" />
+          <Property Name="CompletedDate" Type="date" />
+          <Property Name="Time" Type="decimal" Precision="5" Scale="2" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="PublisherID" />
+          </Key>
+          <Property Name="PublisherID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Game_Developer">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="0..1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DeveloperID" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="Developer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Publisher">
+          <End Role="Publisher" Type="Self.Publisher" Multiplicity="0..1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="PublisherID" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="Publisher_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Playthrough_Game">
+          <End Role="Game" Type="Self.Game" Multiplicity="1" />
+          <End Role="Playthrough" Type="Self.Playthrough" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="GameID" />
+            </Principal>
+            <Dependent Role="Playthrough">
+              <PropertyRef Name="Game_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Playthrough_Platform">
+          <End Role="Platform" Type="Self.Platform" Multiplicity="1" />
+          <End Role="Playthrough" Type="Self.Playthrough" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformID" />
+            </Principal>
+            <Dependent Role="Playthrough">
+              <PropertyRef Name="Platform_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RankingModelStoreContainer">
+          <EntitySet Name="Developer" EntityType="Self.Developer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Platform" EntityType="Self.Platform" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Playthrough" EntityType="Self.Playthrough" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Publisher" EntityType="Self.Publisher" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Game_Developer" Association="Self.FK_Game_Developer">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Publisher" Association="Self.FK_Game_Publisher">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Playthrough_Game" Association="Self.FK_Playthrough_Game">
+            <End Role="Game" EntitySet="Game" />
+            <End Role="Playthrough" EntitySet="Playthrough" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Playthrough_Platform" Association="Self.FK_Playthrough_Platform">
+            <End Role="Platform" EntitySet="Platform" />
+            <End Role="Playthrough" EntitySet="Playthrough" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RankingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RankingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Developers" EntityType="RankingModel.Developer" />
+          <EntitySet Name="Games" EntityType="RankingModel.Game" />
+          <EntitySet Name="Platforms" EntityType="RankingModel.Platform" />
+          <EntitySet Name="Playthroughs" EntityType="RankingModel.Playthrough" />
+          <EntitySet Name="Publishers" EntityType="RankingModel.Publisher" />
+          <AssociationSet Name="FK_Game_Developer" Association="RankingModel.FK_Game_Developer">
+            <End Role="Developer" EntitySet="Developers" />
+            <End Role="Game" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Publisher" Association="RankingModel.FK_Game_Publisher">
+            <End Role="Publisher" EntitySet="Publishers" />
+            <End Role="Game" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Playthrough_Game" Association="RankingModel.FK_Playthrough_Game">
+            <End Role="Game" EntitySet="Games" />
+            <End Role="Playthrough" EntitySet="Playthroughs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Playthrough_Platform" Association="RankingModel.FK_Playthrough_Platform">
+            <End Role="Platform" EntitySet="Platforms" />
+            <End Role="Playthrough" EntitySet="Playthroughs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Games" Relationship="RankingModel.FK_Game_Developer" FromRole="Developer" ToRole="Game" />
+        </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="GameID" />
+          </Key>
+          <Property Name="GameID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Publisher_ID" Type="Int32" />
+          <Property Name="Developer_ID" Type="Int32" />
+          <Property Name="ReleaseDate" Type="DateTime" Precision="0" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="CompetedIn" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Developer" Relationship="RankingModel.FK_Game_Developer" FromRole="Game" ToRole="Developer" />
+          <NavigationProperty Name="Publisher" Relationship="RankingModel.FK_Game_Publisher" FromRole="Game" ToRole="Publisher" />
+          <NavigationProperty Name="Playthroughs" Relationship="RankingModel.FK_Playthrough_Game" FromRole="Game" ToRole="Playthrough" />
+        </EntityType>
+        <EntityType Name="Platform">
+          <Key>
+            <PropertyRef Name="PlatformID" />
+          </Key>
+          <Property Name="PlatformID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Playthroughs" Relationship="RankingModel.FK_Playthrough_Platform" FromRole="Platform" ToRole="Playthrough" />
+        </EntityType>
+        <EntityType Name="Playthrough">
+          <Key>
+            <PropertyRef Name="PlaythroughID" />
+          </Key>
+          <Property Name="PlaythroughID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Game_ID" Type="Int32" Nullable="false" />
+          <Property Name="Platform_ID" Type="Int32" Nullable="false" />
+          <Property Name="CompletedDate" Type="DateTime" Precision="0" />
+          <Property Name="Time" Type="Decimal" Precision="5" Scale="2" />
+          <NavigationProperty Name="Game" Relationship="RankingModel.FK_Playthrough_Game" FromRole="Playthrough" ToRole="Game" />
+          <NavigationProperty Name="Platform" Relationship="RankingModel.FK_Playthrough_Platform" FromRole="Playthrough" ToRole="Platform" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="PublisherID" />
+          </Key>
+          <Property Name="PublisherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Games" Relationship="RankingModel.FK_Game_Publisher" FromRole="Publisher" ToRole="Game" />
+        </EntityType>
+        <Association Name="FK_Game_Developer">
+          <End Type="RankingModel.Developer" Role="Developer" Multiplicity="0..1" />
+          <End Type="RankingModel.Game" Role="Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DeveloperID" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="Developer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Publisher">
+          <End Type="RankingModel.Publisher" Role="Publisher" Multiplicity="0..1" />
+          <End Type="RankingModel.Game" Role="Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="PublisherID" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="Publisher_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Playthrough_Game">
+          <End Type="RankingModel.Game" Role="Game" Multiplicity="1" />
+          <End Type="RankingModel.Playthrough" Role="Playthrough" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="GameID" />
+            </Principal>
+            <Dependent Role="Playthrough">
+              <PropertyRef Name="Game_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Playthrough_Platform">
+          <End Type="RankingModel.Platform" Role="Platform" Multiplicity="1" />
+          <End Type="RankingModel.Playthrough" Role="Playthrough" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platform">
+              <PropertyRef Name="PlatformID" />
+            </Principal>
+            <Dependent Role="Playthrough">
+              <PropertyRef Name="Platform_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RankingModelStoreContainer" CdmEntityContainer="RankingEntities">
+          <EntitySetMapping Name="Developers">
+            <EntityTypeMapping TypeName="RankingModel.Developer">
+              <MappingFragment StoreEntitySet="Developer">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="RankingModel.Game">
+              <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="CompetedIn" ColumnName="CompetedIn" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Developer_ID" ColumnName="Developer_ID" />
+                <ScalarProperty Name="Publisher_ID" ColumnName="Publisher_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GameID" ColumnName="GameID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Platforms">
+            <EntityTypeMapping TypeName="RankingModel.Platform">
+              <MappingFragment StoreEntitySet="Platform">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PlatformID" ColumnName="PlatformID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Playthroughs">
+            <EntityTypeMapping TypeName="RankingModel.Playthrough">
+              <MappingFragment StoreEntitySet="Playthrough">
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="CompletedDate" ColumnName="CompletedDate" />
+                <ScalarProperty Name="Platform_ID" ColumnName="Platform_ID" />
+                <ScalarProperty Name="Game_ID" ColumnName="Game_ID" />
+                <ScalarProperty Name="PlaythroughID" ColumnName="PlaythroughID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publishers">
+            <EntityTypeMapping TypeName="RankingModel.Publisher">
+              <MappingFragment StoreEntitySet="Publisher">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PublisherID" ColumnName="PublisherID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

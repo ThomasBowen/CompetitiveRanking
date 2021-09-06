@@ -1,0 +1,48 @@
+﻿@model CompetitiveRankingWeb.Models.Platform
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Platform</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var playthrough in Model.Playthroughs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => playthrough.Game.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "Game", new { id = playthrough.Game.GameID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PlatformID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

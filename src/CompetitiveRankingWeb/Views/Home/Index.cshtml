@@ -1,0 +1,44 @@
+﻿@model CompetitiveRankingWeb.ViewModels.RankingViewModel
+
+@{
+    ViewBag.Title = "Competitive Ranking";
+}
+
+<div class="jumbotron">
+    <h1>Competitive Ranking</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <a onclick="updateRating('@Model.FirstGame.GameID', '@Model.SecondGame.GameID');">
+            @Html.Partial("_GameCard", Model.FirstGame)
+        </a>
+    </div>
+    <div class="col-md-2 text-center">
+        <h1>V</h1>
+    </div>
+    <div class="col-md-5">
+        <a onclick="updateRating('@Model.SecondGame.GameID', '@Model.FirstGame.GameID');">
+            @Html.Partial("_GameCard", Model.SecondGame)
+        </a>
+    </div>
+</div>
+
+<script>
+    function updateRating(winningId, losingId) {
+        $.ajax({
+            type: "POST",
+            url: '/Rating/Update',
+            data: {
+                WinningID: winningId,
+                LosingID: losingId
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function () {
+                alert("There was an error");
+            }
+        });
+    }
+</script>

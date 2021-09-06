@@ -1,0 +1,28 @@
+﻿@model IEnumerable<CompetitiveRankingWeb.Models.Platform>
+
+@{
+    ViewBag.Title = "Platforms";
+}
+
+<h2>Platforms</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>Game Playthroughs</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(p => p.Playthroughs.Count))
+        {
+            <tr>
+                <td>@Html.ActionLink(item.Name, "Details", new { id = item.PlatformID })</td>
+                <td>@item.Playthroughs.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
