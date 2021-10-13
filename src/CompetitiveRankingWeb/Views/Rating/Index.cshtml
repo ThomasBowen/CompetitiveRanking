@@ -60,3 +60,29 @@
         @Html.Partial("_GameCard", Model.GOAT)
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>All Ratings</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Game</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(var i = 0; i < Model.AllGames.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            @(i+1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.AllGames[i].Name)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

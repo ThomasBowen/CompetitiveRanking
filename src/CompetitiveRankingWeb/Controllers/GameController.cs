@@ -15,7 +15,7 @@ namespace CompetitiveRankingWeb.Controllers
         public ActionResult Index()
         {
             var games = db.Games.GroupBy(g => g.ReleaseDate.Value.Year).Select(grp =>
-                grp.OrderByDescending(x => x.Rating)
+                grp.OrderBy(x => x.ReleaseDate)
             ).ToList().Select(g => new Tuple<int, List<Game>>(g.First().ReleaseDate.Value.Year, g.ToList())).ToList();
 
             return View(games);

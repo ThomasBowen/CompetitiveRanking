@@ -1,0 +1,171 @@
+﻿@model CompetitiveRankingWeb.ViewModels.ChartViewModel
+
+@{
+    ViewBag.Title = "Charts";
+}
+
+<h2>Charts</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div id="over-time-container"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="consoles-container"></div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script type="text/javascript">
+        Highcharts.chart('over-time-container', {
+
+            title: {
+                text: 'Games Over Time'
+            },
+
+            yAxis: [{
+                title: {
+                    text: 'Total Hours'
+                }
+            }, {
+                title: {
+                    text: 'Total Games'
+                },
+                opposite: true
+            }],
+
+            xAxis: {
+                title: {
+                    text: 'Year'
+                },
+                categories: [@{
+                    foreach (var playthroughs in Model.PlaythroughsPerYear)
+                    {
+                        @:@playthroughs.Key,
+                    }
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    }
+                }
+            },
+
+            series: [{
+                yAxis: 0,
+                name: 'Hours',
+                data: [@{
+                    foreach (var playthroughs in Model.PlaythroughsPerYear)
+                    {
+                        @:@playthroughs.Sum(p => p.Time),
+                    }
+                }]
+            }, {
+                yAxis: 1,
+                name: 'Games',
+                data: [@{
+                    foreach (var playthroughs in Model.PlaythroughsPerYear)
+                    {
+                        @:@playthroughs.Count(),
+                    }
+                }]
+            },],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+
+        Highcharts.chart('consoles-container', {
+
+            title: {
+                text: 'Console Total'
+            },
+
+            yAxis: [{
+                title: {
+                    text: 'Total Playthroughs'
+                }
+            }],
+
+            xAxis: {
+                title: {
+                    text: 'Platform'
+                },
+                categories: [@{
+                    foreach (var platform in Model.PlatformTotals)
+                    {
+                        @:"@platform.Item1",
+                    }
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    }
+                }
+            },
+
+            series: [{
+                yAxis: 0,
+                name: 'Platform',
+                data: [@{
+                    foreach (var platform in Model.PlatformTotals)
+                    {
+                         @:@platform.Item2,
+                    }
+                }]
+            }],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+    </script>
+}

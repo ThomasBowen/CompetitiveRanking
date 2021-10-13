@@ -9,5 +9,6 @@ namespace CompetitiveRankingWeb.ViewModels
         public List<Tuple<int, Game>> GOTYS { get; set; }
         public List<Tuple<int, Game>> GOTDS { get; set; }
         public Game GOAT { get; set; }
+        public List<Game> AllGames { get; set; }
     }
 }

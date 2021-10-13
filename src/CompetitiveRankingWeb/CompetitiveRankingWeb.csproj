@@ -141,6 +141,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlatformController.cs" />
@@ -183,6 +184,7 @@
     </Compile>
     <Compile Include="Models\RatingUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ChartViewModel.cs" />
     <Compile Include="ViewModels\GOTYViewModel.cs" />
     <Compile Include="ViewModels\RankingViewModel.cs" />
     <Compile Include="ViewModels\PlaythroughViewModel.cs" />
@@ -253,6 +255,7 @@
     <Content Include="Views\Shared\_Games.cshtml" />
     <Content Include="Views\Playthrough\Index.cshtml" />
     <Content Include="Views\Playthrough\Edit.cshtml" />
+    <Content Include="Views\Chart\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

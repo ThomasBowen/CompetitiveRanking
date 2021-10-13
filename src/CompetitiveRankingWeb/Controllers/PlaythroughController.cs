@@ -12,7 +12,7 @@ namespace CompetitiveRankingWeb.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Playthroughs);
+            return View(db.Playthroughs.OrderBy(p => p.CompletedDate));
         }
 
         public ActionResult Edit(int id)

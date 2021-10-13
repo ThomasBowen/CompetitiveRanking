@@ -20,7 +20,13 @@ namespace CompetitiveRankingWeb.Controllers
                 grp.OrderByDescending(x => x.Rating).FirstOrDefault()
             ).ToList().Select(g => new Tuple<int, Game>(g.ReleaseDate.Value.Year / 10 * 10, g)).ToList();
 
-            return View(new GOTYViewModel { GOTYS = gotys, GOTDS = gotds, GOAT = db.Games.OrderByDescending(x => x.Rating).FirstOrDefault() });
+            return View(new GOTYViewModel
+            {
+                GOTYS = gotys,
+                GOTDS = gotds,
+                GOAT = db.Games.OrderByDescending(x => x.Rating).FirstOrDefault(),
+                AllGames = db.Games.OrderByDescending(g => g.Rating).ToList()
+            });
         }
 
         [HttpPost]
