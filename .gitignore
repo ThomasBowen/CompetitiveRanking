@@ -8,3 +8,4 @@
 /src/CompetitiveRankingWeb.Tests/bin
 /src/CompetitiveRankingWeb.Tests/obj
 /src/packages
+/.vs/*
